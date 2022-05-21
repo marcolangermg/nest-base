@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDecoratorMetadata": true,
+    "incremental": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": [
+        "src/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "src/@types",
+      "node_modules/@types"
+    ],
+    "lib": [
+      "ES2019"
+    ],
+    "module": "commonjs",
+    "outDir": "dist/",
+    "target": "ES2019"
+  }
+}
