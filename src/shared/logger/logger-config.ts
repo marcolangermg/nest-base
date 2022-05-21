@@ -8,7 +8,7 @@ export const loggerConfig = LoggerModule.forRoot({
       return { requestId: uuidV4() };
     },
     name: config.app.name,
-    level: "debug",
+    level: config.app.logLevel,
     autoLogging: false,
     redact: ["request.headers.authorization"],
     transport: {

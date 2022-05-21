@@ -4,6 +4,11 @@ import env from "env-var";
 export class AppSettings {
   public readonly name = "Service Name";
 
+  public readonly logLevel = env
+    .get(OptionalEnv.LOG_LEVEL)
+    .default("debug")
+    .asString();
+
   public readonly enableApiDocumentation = env
     .get(OptionalEnv.ENABLE_API_DOCUMENTATION)
     .default("true")
