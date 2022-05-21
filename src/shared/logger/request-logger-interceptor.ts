@@ -31,7 +31,7 @@ export class LoggingInterceptor implements NestInterceptor {
     };
     /* istanbul ignore if */
     if (originalUrl === "/status") {
-      //return next.handle();
+      return next.handle();
     }
 
     Logger.log("API Request", "LoggingInterceptor", requestData);

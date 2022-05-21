@@ -8,4 +8,9 @@ export class AppSettings {
     .get(OptionalEnv.ENABLE_API_DOCUMENTATION)
     .default("true")
     .asBool();
+
+  public readonly appListenPort = env
+    .get(OptionalEnv.ENABLE_API_DOCUMENTATION)
+    .default("3000")
+    .asIntPositive();
 }

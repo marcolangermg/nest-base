@@ -1,4 +1,5 @@
 import { ApplicationSettings } from "@app/settings/application-settings";
+import { Logger } from "@app/shared/logger/logger";
 import { plainToClass } from "class-transformer";
 import { validateSync } from "class-validator";
 
@@ -17,10 +18,11 @@ export const validateSettings = (): void => {
 
   /* istanbul ignore if */
   if (validationErrors.length > 0) {
-    console.log("Invalid system configuration", {
+    Logger.error("Invalid system configuration", "validateSettings", {
       validationResult: validationErrors,
     });
     process.exit(1);
   }
-  console.log("System configuration is valid");
+
+  Logger.error("Invalid system configuration", "validateSettings");
 };
