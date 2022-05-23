@@ -6,6 +6,6 @@ import { ApiTags } from "@nestjs/swagger";
 export class StatusController {
   @Get()
   check() {
-    return { status: true, testando: "testando" };
+    return { status: true };
   }
 }
