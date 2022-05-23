@@ -1,9 +1,14 @@
 import { ApplicationSettings } from "@app/settings/application-settings";
-import { Logger } from "@app/shared/logger/logger";
+import { Logger, LogLevel } from "@app/shared/logger/logger";
 import { plainToClass } from "class-transformer";
 import { validateSync } from "class-validator";
 
 export const validateSettings = (): void => {
+  Logger.log({
+    message: "Validating system configuration",
+    context: "validateSettings",
+  });
+
   const settings = plainToClass(
     ApplicationSettings,
     new ApplicationSettings(),
@@ -18,11 +23,19 @@ export const validateSettings = (): void => {
 
   /* istanbul ignore if */
   if (validationErrors.length > 0) {
-    Logger.error("Invalid system configuration", "validateSettings", {
-      validationResult: validationErrors,
+    Logger.log({
+      message: "Invalid system configuration",
+      context: "validateSettings",
+      logData: {
+        validationResult: validationErrors,
+      },
+      level: LogLevel.ERROR,
     });
     process.exit(1);
   }
 
-  Logger.error("Invalid system configuration", "validateSettings");
+  Logger.log({
+    message: "Valid system configuration",
+    context: "validateSettings",
+  });
 };

@@ -1,4 +1,4 @@
-import { Logger } from "@app/shared/logger/logger";
+import { Logger, LogLevel } from "@app/shared/logger/logger";
 import {
   CallHandler,
   ExecutionContext,
@@ -8,16 +8,13 @@ import {
 } from "@nestjs/common";
 import { Observable, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
-import { v4 } from "uuid";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const startTime = new Date().getTime();
     const req = context.switchToHttp().getRequest();
-    const { originalUrl, headers, method, params, query, body } = req;
-
-    headers["X-Request-ID"] = v4().toString();
+    const { originalUrl, method, params, query, body } = req;
 
     const splittedOriginalUrl = String(originalUrl).split("?");
 
@@ -34,7 +31,11 @@ export class LoggingInterceptor implements NestInterceptor {
       return next.handle();
     }
 
-    Logger.log("API Request", "LoggingInterceptor", requestData);
+    Logger.log({
+      message: "API Request",
+      context: "LoggingInterceptor",
+      logData: requestData,
+    });
 
     return next.handle().pipe(
       tap((data) => {
@@ -43,9 +44,13 @@ export class LoggingInterceptor implements NestInterceptor {
         const responseTimeMs = new Date().getTime() - startTime;
         const responseData = { statusCode, data, responseTimeMs };
 
-        Logger.log("API Response", "LoggingInterceptor", {
-          requestData,
-          responseData,
+        Logger.log({
+          message: "API Response",
+          context: "LoggingInterceptor",
+          logData: {
+            requestData,
+            responseData,
+          },
         });
       }),
 
@@ -60,10 +65,15 @@ export class LoggingInterceptor implements NestInterceptor {
           responseTimeMs,
         };
 
-        Logger.debug("API Response Error", "LoggingInterceptor", {
-          requestData,
-          responseData,
-          err,
+        Logger.log({
+          message: "API Response Error",
+          context: "LoggingInterceptor",
+          logData: {
+            requestData,
+            responseData,
+            err,
+          },
+          level: LogLevel.DEBUG,
         });
 
         return throwError(() => err);

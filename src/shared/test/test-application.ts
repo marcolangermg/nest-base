@@ -1,14 +1,13 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AppModule } from "@app/app.module";
-import { INestApplication } from "@nestjs/common";
 import { configSettings } from "@app/nest.settings";
+import { ApplicationSettings } from "@app/settings/application-settings";
+import { Logger } from "@app/shared/logger/logger";
 import {
   ApplicationSettingsCustom,
   RecursivePartial,
 } from "@app/shared/test/application-settings-custom";
-import { ApplicationSettings } from "@app/settings/application-settings";
-import { Logger } from "@app/shared/logger/logger";
+import { INestApplication } from "@nestjs/common";
+import { Test, TestingModule } from "@nestjs/testing";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type NestJsModule = any;
@@ -47,15 +46,9 @@ export class TestApplication {
   }
 
   private async cleanUp(): Promise<void> {
-    await Promise.all([Logger.debug("Cleaning up...", TestApplication.name)]);
-  }
-
-  private logCleanUpError(resource: string): (err: Error) => void {
-    return (err: Error) => {
-      Logger.error(`Error cleaning up: ${resource}`, TestApplication.name, {
-        err,
-      });
-    };
+    await Promise.all([
+      Logger.log({ message: "Cleaning up...", context: TestApplication.name }),
+    ]);
   }
 
   private async setUp(): Promise<void> {
