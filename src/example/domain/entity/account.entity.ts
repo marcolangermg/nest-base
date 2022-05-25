@@ -15,7 +15,7 @@ export class Account implements AccountInterface {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  constructor(porps: AccountInterface) {
-    Object.assign(this, porps);
+  constructor(props: AccountInterface) {
+    Object.assign(this, props);
   }
 }

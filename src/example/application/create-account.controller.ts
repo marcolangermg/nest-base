@@ -2,18 +2,20 @@ import { RequestCreateAccountDto } from "@app/example/application/dto/request-cr
 import { ResponseCreateAccountDto } from "@app/example/application/dto/response-crate-account.dto";
 import { CreateAccountUseCase } from "@app/example/domain/create-account.use-case";
 import { BaseController } from "@app/shared/base-classes/base-controller";
-import { HttpMethodDecorator } from "@app/shared/http/http-method-decorator";
+import { HttpMethodDecorator } from "@app/shared/http/http-method.decorator";
 import { HttpRoutes } from "@app/shared/http/http-routes";
+import { SwaggerTagDecorator } from "@app/shared/http/swagger-tag.decorator";
+import { SwaggerTags } from "@app/shared/http/swagger-tags";
 import { Body } from "@nestjs/common";
-import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiCreatedResponse } from "@nestjs/swagger";
 
-@ApiTags("Account")
-@ApiResponse({ type: ResponseCreateAccountDto })
+@SwaggerTagDecorator.apiTags(SwaggerTags.ACCOUNT)
 export class CreateAccountController extends BaseController<ResponseCreateAccountDto> {
   constructor(private readonly createAccountUseCase: CreateAccountUseCase) {
     super(CreateAccountController.name);
   }
 
+  @ApiCreatedResponse({ type: ResponseCreateAccountDto })
   @HttpMethodDecorator.post(HttpRoutes.ACCOUNT_CREATE)
   public async handle(
     @Body() requestCreateAccountDto: RequestCreateAccountDto,

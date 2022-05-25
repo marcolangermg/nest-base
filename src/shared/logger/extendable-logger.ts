@@ -14,7 +14,6 @@ export class ExtendableLogger {
 
   protected log(message: string, logData?: unknown): void;
   protected log(message: string, logData?: unknown, level?: LogLevel): void;
-
   protected log(message: string, logData?: unknown, level?: LogLevel): void {
     Logger.log({
       message,

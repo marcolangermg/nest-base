@@ -1,5 +1,5 @@
-import { REQUEST_SCOPED } from "@app/shared/container/request-scoped";
 import { BaseResponseDto } from "@app/shared/base-classes/base-response.dto";
+import { REQUEST_SCOPED } from "@app/shared/container/request-scoped";
 import { ErrorCode } from "@app/shared/http/error-code";
 import { ResponseErrorDto } from "@app/shared/http/response-error.dto";
 import { ExtendableLogger } from "@app/shared/logger/extendable-logger";
