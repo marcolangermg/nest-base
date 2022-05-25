@@ -1,25 +1,15 @@
-import { AppModule } from "@app/app.module";
-import { Test, TestingModule } from "@nestjs/testing";
+import { HttpRoutes } from "@app/shared/http/http-routes";
+import { TestApplication } from "@app/shared/test/test-application";
 import request from "supertest";
-
-const buildApp = async function () {
-  const moduleFixture: TestingModule = await Test.createTestingModule({
-    imports: [AppModule],
-  }).compile();
-
-  const app = moduleFixture.createNestApplication();
-  await app.init();
-
-  return app;
-};
 
 describe("StatusController (e2e)", () => {
   describe("(GET) /status", () => {
     it("returns healthy status", async () => {
-      const app = await buildApp();
-
-      return request(app.getHttpServer()).get(`/status`).expect(200).expect({
-        status: true,
+      return new TestApplication().run(async ({ app }): Promise<void> => {
+        await request(app.getHttpServer())
+          .get(HttpRoutes.STATUS)
+          .expect(200)
+          .expect({ status: true });
       });
     });
   });

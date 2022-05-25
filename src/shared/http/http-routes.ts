@@ -1,4 +1,4 @@
 export enum HttpRoutes {
   STATUS = "/status",
-  ACCOUNT_CREATE = "account/create",
+  ACCOUNT_CREATE = "/account/create",
 }
