@@ -1,3 +1,4 @@
+import { HttpRoutes } from "@app/shared/http/http-routes";
 import { Logger, LogLevel } from "@app/shared/logger/logger";
 import {
   CallHandler,
@@ -27,7 +28,7 @@ export class LoggingInterceptor implements NestInterceptor {
       body,
     };
     /* istanbul ignore if */
-    if (originalUrl === "/status") {
+    if (originalUrl === HttpRoutes.STATUS) {
       return next.handle();
     }
 
@@ -73,7 +74,7 @@ export class LoggingInterceptor implements NestInterceptor {
             responseData,
             err,
           },
-          level: LogLevel.DEBUG,
+          level: LogLevel.ERROR,
         });
 
         return throwError(() => err);

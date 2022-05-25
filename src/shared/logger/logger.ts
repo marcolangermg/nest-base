@@ -7,6 +7,7 @@ export enum LogLevel {
   ERROR = "error",
   WARN = "warn",
 }
+
 export interface LogInterface {
   message: string;
   context: string;
