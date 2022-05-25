@@ -5,9 +5,10 @@ import { BaseController } from "@app/shared/base-classes/base-controller";
 import { HttpMethodDecorator } from "@app/shared/http/http-method-decorator";
 import { HttpRoutes } from "@app/shared/http/http-routes";
 import { Body } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiResponse, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Account")
+@ApiResponse({ type: ResponseCreateAccountDto })
 export class CreateAccountController extends BaseController<ResponseCreateAccountDto> {
   constructor(private readonly createAccountUseCase: CreateAccountUseCase) {
     super(CreateAccountController.name);
@@ -18,6 +19,7 @@ export class CreateAccountController extends BaseController<ResponseCreateAccoun
     @Body() requestCreateAccountDto: RequestCreateAccountDto,
   ): Promise<ResponseCreateAccountDto> {
     this.log("Starting");
+
     const account = requestCreateAccountDto.toAccount();
 
     const executeResult = await this.createAccountUseCase.execute(account);

@@ -12,10 +12,10 @@ export class ExtendableLogger {
     this.context = className;
   }
 
-  public log(message: string, logData?: unknown): void;
-  public log(message: string, logData?: unknown, level?: LogLevel): void;
+  protected log(message: string, logData?: unknown): void;
+  protected log(message: string, logData?: unknown, level?: LogLevel): void;
 
-  public log(message: string, logData?: unknown, level?: LogLevel): void {
+  protected log(message: string, logData?: unknown, level?: LogLevel): void {
     Logger.log({
       message,
       logData,
