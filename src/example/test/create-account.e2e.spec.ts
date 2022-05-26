@@ -26,27 +26,25 @@ describe("Create Account (e2e)", () => {
       });
     });
 
-    describe(`(POST) ${HttpRoutes.ACCOUNT_CREATE}`, () => {
-      it("returns error when account name is too short", async () => {
-        const requestData = {
-          email: faker.internet.email(),
-          password: faker.internet.password(),
-          name: "a",
-        };
+    it("returns error when account name is too short", async () => {
+      const requestData = {
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        name: "a",
+      };
 
-        return new TestApplication().run(async ({ app }): Promise<void> => {
-          await request(app.getHttpServer())
-            .post(HttpRoutes.ACCOUNT_CREATE)
-            .send(requestData)
-            .expect(422)
-            .expect((response) => {
-              expect(response.body).toEqual(
-                expect.objectContaining({
-                  error: ErrorCodeList.CREATE_ACCOUNT_NAME_TOO_SHORT,
-                }),
-              );
-            });
-        });
+      return new TestApplication().run(async ({ app }): Promise<void> => {
+        await request(app.getHttpServer())
+          .post(HttpRoutes.ACCOUNT_CREATE)
+          .send(requestData)
+          .expect(422)
+          .expect((response) => {
+            expect(response.body).toEqual(
+              expect.objectContaining({
+                error: ErrorCodeList.CREATE_ACCOUNT_NAME_TOO_SHORT,
+              }),
+            );
+          });
       });
     });
 
