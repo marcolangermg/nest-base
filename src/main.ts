@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { NestSettings } from "@app/nest.settings";
 import { config } from "@app/settings/application-config";
 import { INestApplication } from "@nestjs/common";

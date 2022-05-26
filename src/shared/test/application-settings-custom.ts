@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { ApplicationSettings } from "@app/settings/application-settings";
 import { merge } from "lodash";
 

@@ -10,4 +10,8 @@ const buildError = (code: string, description: string): ErrorCode =>
 
 export const ErrorCodeList = {
   ACCOUNT_NOT_FOUND: buildError("ACCOUNT_NOT_FOUND", "Account not found"),
+  CREATE_ACCOUNT_NAME_TOO_SHORT: buildError(
+    "CREATE_ACCOUNT_NAME_TOO_SHORT",
+    "Account name must have more than 3 characters",
+  ),
 };

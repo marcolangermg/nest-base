@@ -3,6 +3,7 @@ import { INestApplication } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 export function swaggerConfig(app: INestApplication): void {
+  /* istanbul ignore if */
   if (!config.app.enableApiDocumentation) {
     return;
   }

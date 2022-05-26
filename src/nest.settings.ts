@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { AppModule } from "@app/app.module";
 import { LoggingInterceptor } from "@app/shared/logger/request-logger-interceptor";
 import { validateSettings } from "@app/settings/validate-settings";
@@ -17,6 +16,7 @@ export const configSettings = (app: INestApplication): void => {
 };
 
 export class NestSettings {
+  /* istanbul ignore next */
   static createApp = async (): Promise<INestApplication> => {
     const app: INestApplication = await NestFactory.create(AppModule, {
       bufferLogs: true,

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { AppModule } from "@app/app.module";
 import { configSettings } from "@app/nest.settings";
 import { ApplicationSettings } from "@app/settings/application-settings";
