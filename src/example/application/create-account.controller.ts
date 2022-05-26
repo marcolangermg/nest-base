@@ -2,10 +2,10 @@ import { RequestCreateAccountDto } from "@app/example/application/dto/request-cr
 import { ResponseCreateAccountDto } from "@app/example/application/dto/response-crate-account.dto";
 import { CreateAccountUseCase } from "@app/example/domain/create-account.use-case";
 import { BaseController } from "@app/shared/base-classes/base-controller";
-import { HttpMethodDecorator } from "@app/shared/http/http-method.decorator";
+import { HttpMethodDecorator } from "@app/shared/http/decorator/http-method.decorator";
 import { HttpRoutes } from "@app/shared/http/http-routes";
-import { SwaggerTagDecorator } from "@app/shared/http/swagger-tag.decorator";
-import { SwaggerTags } from "@app/shared/http/swagger-tags";
+import { SwaggerTagDecorator } from "@app/shared/swagger/swagger-tag.decorator";
+import { SwaggerTags } from "@app/shared/swagger/swagger-tags";
 import { Body } from "@nestjs/common";
 import { ApiCreatedResponse } from "@nestjs/swagger";
 

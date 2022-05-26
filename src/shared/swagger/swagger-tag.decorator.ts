@@ -1,4 +1,4 @@
-import { SwaggerTags } from "@app/shared/http/swagger-tags";
+import { SwaggerTags } from "@app/shared/swagger/swagger-tags";
 import { ApiTags } from "@nestjs/swagger";
 
 export class SwaggerTagDecorator {

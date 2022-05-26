@@ -2,7 +2,7 @@ import { HttpRoutes } from "@app/shared/http/http-routes";
 import { TestApplication } from "@app/shared/test/test-application";
 import request from "supertest";
 import { faker } from "@faker-js/faker";
-import { ErrorCodeList } from "@app/shared/http/error-code";
+import { ErrorCodeList } from "@app/shared/error-code";
 
 describe("Create Account (e2e)", () => {
   describe(`(POST) ${HttpRoutes.ACCOUNT_CREATE}`, () => {

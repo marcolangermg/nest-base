@@ -6,7 +6,7 @@ export interface ExtendableLoggerInterface {
   logData?: unknown;
 }
 
-export class ExtendableLogger {
+export abstract class ExtendableLogger {
   private readonly context: string;
   constructor(className: string) {
     this.context = className;

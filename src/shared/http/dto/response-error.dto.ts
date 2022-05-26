@@ -1,4 +1,4 @@
-import { ErrorCode } from "@app/shared/http/error-code";
+import { ErrorCode } from "@app/shared/error-code";
 import { ApiProperty } from "@nestjs/swagger";
 
 abstract class ErrorCodeDto {

@@ -1,7 +1,7 @@
 import { AppModule } from "@app/app.module";
 import { LoggingInterceptor } from "@app/shared/logger/request-logger-interceptor";
 import { validateSettings } from "@app/settings/validate-settings";
-import { swaggerConfig } from "@app/shared/http/swagger-config";
+import { swaggerConfig } from "@app/shared/swagger/swagger-config";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { Logger } from "nestjs-pino";
