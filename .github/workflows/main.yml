@@ -26,4 +26,4 @@ jobs:
     - name: Install dependencies
       run: npm i
     - run: npm run build
-    - run: npm test
+    - run: npm test:cov
