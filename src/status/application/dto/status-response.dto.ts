@@ -5,7 +5,7 @@ export class StatusResponseDto extends BaseResponseDto {
   @ApiProperty()
   public status!: boolean;
 
-  build(props: boolean): StatusResponseDto {
+  public build(props: boolean): StatusResponseDto {
     this.status = props as boolean;
 
     return this;
