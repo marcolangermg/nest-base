@@ -7,8 +7,10 @@ services:
         build:
             context: .
             target: development
-            dockerfile: ./Dockerfile
+            dockerfile: ./docker/main-service/Dockerfile
         command: npm run start:dev
+        environment:
+          - SERVICE_PORT=3000
         ports:
             - 3000:3000
             - 9229:9229
@@ -24,7 +26,7 @@ services:
         build:
             context: .
             target: production
-            dockerfile: ./Dockerfile
+            dockerfile: ./docker/main-service/Dockerfile
         command: npm run start:prod
         ports:
             - 3000:3000
@@ -35,6 +37,19 @@ services:
             - .:/usr/src/app
             - /usr/src/app/node_modules
         restart: unless-stopped
+    pubSub:
+        image: pubsub
+        build:
+            context: .
+            target: pubSub
+            dockerfile: ./docker/pubsub/Dockerfile
+        environment:
+          - PUBSUB_PROJECT_ID=dummy-project-id
+          - PUBSUB_LISTEN_ADDRESS=0.0.0.0:8085
+          - PUBSUB_PORT=8085
+        ports:
+          - "8085:8085"
+
 
 networks:
     nesjs-network:
