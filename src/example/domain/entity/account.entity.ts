@@ -1,3 +1,5 @@
+import { EnqueueEvent } from "@app/shared/queue/domain/enqueue-event";
+
 export interface AccountInterface {
   id: string;
   name: string;
@@ -7,7 +9,7 @@ export interface AccountInterface {
   updatedAt: Date;
 }
 
-export class Account implements AccountInterface {
+export class Account implements AccountInterface, EnqueueEvent {
   public readonly id!: string;
   public readonly name!: string;
   public readonly email!: string;
@@ -17,5 +19,16 @@ export class Account implements AccountInterface {
 
   constructor(props: AccountInterface) {
     Object.assign(this, props);
+  }
+  public toEvent(): { [k: string]: string } {
+    return {
+      type: "account",
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      password: this.password,
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt.toISOString(),
+    };
   }
 }

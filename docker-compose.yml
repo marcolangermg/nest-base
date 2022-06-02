@@ -4,6 +4,8 @@ services:
     dev:
         container_name: nestjs_api_dev
         image: nestjs-api-dev:1.0.0
+        env_file:
+            - .env
         build:
             context: .
             target: development
@@ -20,9 +22,12 @@ services:
             - .:/usr/src/app
             - /usr/src/app/node_modules
         restart: unless-stopped
+
     prod:
         container_name: nestjs_api_prod
         image: nestjs-api-prod:1.0.0
+        env_file:
+            - .env
         build:
             context: .
             target: production
@@ -43,12 +48,14 @@ services:
             context: .
             target: pubSub
             dockerfile: ./docker/pubsub/Dockerfile
+        networks:
+            - nesjs-network
         environment:
           - PUBSUB_PROJECT_ID=dummy-project-id
           - PUBSUB_LISTEN_ADDRESS=0.0.0.0:8085
           - PUBSUB_PORT=8085
         ports:
-          - "8085:8085"
+          - "8085:8085"        
 
 
 networks:

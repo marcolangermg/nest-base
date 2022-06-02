@@ -1,4 +1,4 @@
-import { OptionalEnv } from "@app/settings/environment-variables";
+import { Env, OptionalEnv } from "@app/settings/environment-variables";
 import env from "env-var";
 
 export class AppSettings {
@@ -18,4 +18,6 @@ export class AppSettings {
     .get(OptionalEnv.ENABLE_API_DOCUMENTATION)
     .default("3000")
     .asIntPositive();
+
+  public readonly baseUrl = env.get(Env.SERVICE_BASE_URL).asUrlString();
 }
