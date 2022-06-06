@@ -22,6 +22,8 @@ services:
             - .:/usr/src/app
             - /usr/src/app/node_modules
         restart: unless-stopped
+        depends_on:
+            - pubSub
 
     prod:
         container_name: api_prod
