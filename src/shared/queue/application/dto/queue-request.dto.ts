@@ -1,11 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class QueueMessageDto {
   @ApiProperty()
   @IsString()
-  public readonly data!: string;
+  @IsOptional()
+  public readonly data?: string;
 
   @ApiProperty()
   @IsString()
@@ -18,7 +19,8 @@ export class QueueMessageDto {
 export class QueueRequestDto {
   @ApiProperty()
   @IsString()
-  public readonly subscription!: string;
+  @IsOptional()
+  public readonly subscription?: string;
 
   @ApiProperty()
   @Type(() => QueueMessageDto)

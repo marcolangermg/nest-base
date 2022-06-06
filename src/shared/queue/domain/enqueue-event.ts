@@ -1,3 +1,1 @@
-export abstract class EnqueueEvent {
-  public abstract toEvent(): { [k: string]: string };
-}
+export type EnqueueEvent = { [k: string]: string };

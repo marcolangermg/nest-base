@@ -4,4 +4,5 @@ import { ErrorCode } from "@app/shared/error-code";
 
 export abstract class CreateAccountService extends BaseService {
   abstract create(account: Account): Promise<Account | ErrorCode>;
+  abstract findByEmail(email: string): Promise<Account | undefined>;
 }

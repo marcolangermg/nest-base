@@ -14,7 +14,7 @@ export class PubSubEnqueuer implements Enqueuer {
     topicName: QueueTopics,
     data: EnqueueEvent,
   ): Promise<void> {
-    const event = new QueueEvent(topicName, data.toEvent());
+    const event = new QueueEvent(topicName, data);
     await this.pubSubService.publish(topicName, event);
   }
 }

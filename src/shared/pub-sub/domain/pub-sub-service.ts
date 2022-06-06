@@ -6,8 +6,6 @@ import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
 export abstract class PubSubService extends ExtendableLogger {
   public abstract createTopic(topicName: QueueTopics): Promise<void>;
 
-  public abstract deleteTopic(topicName: QueueTopics): Promise<void>;
-
   public abstract subscribe(options: PubSubSubscription): Promise<void>;
 
   public abstract unsubscribe(subscriptionName: string): Promise<void>;

@@ -1,8 +1,6 @@
 ## Description
 Project to be used as a starting base to NestJs based solutions
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
 ## Installation
 
 ```bash
@@ -34,3 +32,8 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Documentation
+[swagger](http://localhost:3000/api)
+
+[github](https://github.com/marcolangermg/nest-base)

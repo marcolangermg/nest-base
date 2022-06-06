@@ -5,6 +5,7 @@ import { ErrorCode, ErrorCodeList } from "@app/shared/error-code";
 import { LogLevel } from "@app/shared/logger/logger";
 import { Injectable } from "@nestjs/common";
 
+const accountList: Account[] = []; // TODO: replace with database
 @Injectable(REQUEST_SCOPED)
 export class VendorCreateAccountService extends CreateAccountService {
   constructor() {
@@ -18,6 +19,19 @@ export class VendorCreateAccountService extends CreateAccountService {
       return ErrorCodeList.CREATE_ACCOUNT_NAME_TOO_SHORT;
     }
 
+    const existingAccount = await this.findByEmail(account.email);
+    if (existingAccount !== undefined) {
+      return ErrorCodeList.CREATE_ACCOUNT_EMAIL_EXISTS;
+    }
+
+    accountList.push(account);
+
     return Promise.resolve(account);
+  }
+
+  public async findByEmail(email: string): Promise<Account | undefined> {
+    return Promise.resolve(
+      accountList.find((account) => account.email === email),
+    );
   }
 }

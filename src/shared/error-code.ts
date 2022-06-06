@@ -14,4 +14,8 @@ export const ErrorCodeList = {
     "CREATE_ACCOUNT_NAME_TOO_SHORT",
     "Account name must have more than 3 characters",
   ),
+  CREATE_ACCOUNT_EMAIL_EXISTS: buildError(
+    "CREATE_ACCOUNT_EMAIL_EXISTS",
+    "Email must be unique",
+  ),
 };

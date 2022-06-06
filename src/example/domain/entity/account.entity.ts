@@ -9,7 +9,7 @@ export interface AccountInterface {
   updatedAt: Date;
 }
 
-export class Account implements AccountInterface, EnqueueEvent {
+export class Account implements AccountInterface {
   public readonly id!: string;
   public readonly name!: string;
   public readonly email!: string;
@@ -20,7 +20,8 @@ export class Account implements AccountInterface, EnqueueEvent {
   constructor(props: AccountInterface) {
     Object.assign(this, props);
   }
-  public toEvent(): { [k: string]: string } {
+
+  public toEvent(): EnqueueEvent {
     return {
       type: "account",
       id: this.id,

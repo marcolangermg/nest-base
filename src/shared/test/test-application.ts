@@ -1,34 +1,34 @@
-/* istanbul ignore file */
-import { AppModule } from "@app/app.module";
-import { configSettings } from "@app/nest.settings";
 import { ApplicationSettings } from "@app/settings/application-settings";
-import { Logger } from "@app/shared/logger/logger";
+import { ExtendableLogger } from "@app/shared/logger/extendable-logger";
 import {
   ApplicationSettingsCustom,
   RecursivePartial,
 } from "@app/shared/test/application-settings-custom";
+import { NestTestApplication } from "@app/shared/test/nest-test-application";
+import { PubSubQueueTestApplication } from "@app/shared/test/pub-sub-queue-test-application";
 import { INestApplication } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
+import { v4 } from "uuid";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type NestJsModule = any;
-
+/* istanbul ignore file */
 interface TestApplicationData {
   app: INestApplication;
+  pubSubQueue?: PubSubQueueTestApplication;
 }
 
-export class TestApplication {
+interface TestApplicationOptions {
+  customSettings?: RecursivePartial<ApplicationSettings>;
+  buildPubSubQueue?: boolean;
+  overrideProviderList?: [{ original: unknown; override: unknown }];
+}
+
+/* istanbul ignore file */
+export class TestApplication extends ExtendableLogger {
   private readonly applicationSettings = new ApplicationSettingsCustom();
-  private app?: INestApplication;
-  private customSettings?: RecursivePartial<ApplicationSettings>;
-  private readonly modules: Array<NestJsModule> = [];
+  private nestTestApplication!: NestTestApplication;
+  private pubSubQueue?: PubSubQueueTestApplication;
 
-  public setCustomSettings(
-    customSettings?: RecursivePartial<ApplicationSettings>,
-  ): TestApplication {
-    this.customSettings = customSettings;
-
-    return this;
+  constructor(private readonly options: TestApplicationOptions) {
+    super(TestApplication.name);
   }
 
   public async run(
@@ -39,50 +39,47 @@ export class TestApplication {
 
       await cb({
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        app: this.app!,
+        app: this.nestTestApplication.app!,
+        pubSubQueue: this.pubSubQueue,
       });
     } finally {
       await this.cleanUp();
     }
   }
 
-  private async cleanUp(): Promise<void> {
-    await Promise.all([
-      Logger.log({ message: "Cleaning up...", context: TestApplication.name }),
-    ]);
-  }
-
   private async setUp(): Promise<void> {
-    this.applyCustomSettings();
-    await this.buildApp();
-  }
+    if (this.options.customSettings) {
+      this.applicationSettings.setCustomSettings(this.options.customSettings);
+    }
 
-  public addModule(module: NestJsModule): TestApplication {
-    this.modules.push(module);
+    await this.configApp();
 
-    return this;
-  }
+    if (this.options.buildPubSubQueue === true) {
+      this.applicationSettings.setCustomSettings({
+        pubSub: { projectId: v4() },
+      });
 
-  private applyCustomSettings(): void {
-    if (this.customSettings) {
-      this.applicationSettings.setCustomSettings(this.customSettings);
+      this.pubSubQueue = await new PubSubQueueTestApplication(
+        this.applicationSettings,
+      ).setUp();
     }
   }
 
-  private async buildApp(): Promise<void> {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, ...this.modules],
-    })
-      .overrideProvider(ApplicationSettings)
-      .useValue(this.applicationSettings)
-      .compile();
+  private async configApp(): Promise<void> {
+    this.nestTestApplication = new NestTestApplication(
+      this.applicationSettings,
+    );
+    this.options.overrideProviderList?.forEach(({ original, override }) => {
+      this.nestTestApplication.setOverrideProvider(original, override);
+    });
 
-    const app = moduleFixture.createNestApplication();
+    await this.nestTestApplication.setUp();
+  }
 
-    configSettings(app);
-
-    await app.init();
-
-    this.app = app;
+  private async cleanUp(): Promise<void> {
+    await Promise.all([
+      await this.nestTestApplication?.cleanUp(),
+      await this.pubSubQueue?.cleanUp(),
+    ]);
   }
 }

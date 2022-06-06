@@ -25,7 +25,10 @@ export class AsyncCreateAccountController extends BaseController<AsyncResponseCr
 
     const account = requestCreateAccountDto.toAccount();
 
-    await this.enqueuer.publish(QueueTopics.CREATE_ACCOUNT_PROCESS, account);
+    await this.enqueuer.publish(
+      QueueTopics.CREATE_ACCOUNT_PROCESS,
+      account.toEvent(),
+    );
 
     return this.buildResponse({}, new AsyncResponseCreateAccountDto());
   }
