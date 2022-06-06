@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     dev:
-        container_name: nestjs_api_dev
+        container_name: api_dev
         image: nestjs-api-dev:1.0.0
         env_file:
             - .env
@@ -24,7 +24,7 @@ services:
         restart: unless-stopped
 
     prod:
-        container_name: nestjs_api_prod
+        container_name: api_prod
         image: nestjs-api-prod:1.0.0
         env_file:
             - .env

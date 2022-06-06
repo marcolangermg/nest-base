@@ -7,26 +7,14 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - name: Install dependencies
-      run: npm i
-    - name: build
-      run: npm run build
+    - name: build containers
+      run: docker compose  -f "docker-compose.yml" up -d --build dev pubSub
+    - name: connect to container
+      run: docker exec -it api_dev bash
     - name: lint
       run: npm run lint
     - name: test
