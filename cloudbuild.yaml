@@ -1,3 +1,0 @@
-  steps:
-  - name: 'docker/compose'
-    args: ['-f', 'docker-compose.yml', 'up', '-d', '--build', 'prod']

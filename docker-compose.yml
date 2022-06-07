@@ -22,23 +22,7 @@ services:
         restart: unless-stopped
         depends_on:
             - pubSub
-
-    prod:
-        container_name: api_prod
-        image: nestjs-api-prod:1.0.0
-        env_file:
-            - .env
-        build:
-            context: .
-            target: production
-            dockerfile: ./docker/main-service/prod/Dockerfile
-        command: npm run start:prod
-        ports:
-            - 3000:3000
-            - 9229:9229
-        networks:
-            - nesjs-network
-        restart: unless-stopped
+            
     pubSub:
         image: pubsub
         build:
