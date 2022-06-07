@@ -1,0 +1,3 @@
+  steps:
+  - name: 'docker/compose'
+    args: ['up', '-d', '--build dev']
