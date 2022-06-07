@@ -15,7 +15,7 @@ export class AppSettings {
     .asBool();
 
   public readonly appListenPort = env
-    .get(OptionalEnv.ENABLE_API_DOCUMENTATION)
+    .get(OptionalEnv.APP_LISTEN_PORT)
     .default("3000")
     .asIntPositive();
 
