@@ -32,7 +32,6 @@ services:
             context: .
             target: production
             dockerfile: ./docker/main-service/Dockerfile
-        command: npm run start:prod
         ports:
             - 3000:3000
             - 9229:9229
