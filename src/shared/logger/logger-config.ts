@@ -10,6 +10,7 @@ export const loggerConfig = LoggerModule.forRoot({
     },
     name: config.app.name,
     level: config.app.logLevel,
+
     autoLogging: false,
     redact: {
       paths: redactList,
@@ -22,7 +23,8 @@ export const loggerConfig = LoggerModule.forRoot({
         singleLine: false,
         levelFirst: false,
         translateTime: "yyyy-MM-dd'T'HH:mm:ss.l'Z'",
-        messageFormat: "[RequestId:{req.id.requestId}] [{context}] {msg}",
+        messageFormat: `{"requestId":"{req.id.requestId}", "context":"{msg}"}`,
+
         ignore: "pid,hostname,context,req,res,responseTime",
         errorLikeObjectKeys: ["err", "error"],
       },
