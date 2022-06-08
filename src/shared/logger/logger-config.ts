@@ -19,7 +19,7 @@ export const loggerConfig = LoggerModule.forRoot({
       target: "pino-pretty",
       options: {
         colorize: true,
-        singleLine: true,
+        singleLine: false,
         levelFirst: false,
         translateTime: "yyyy-MM-dd'T'HH:mm:ss.l'Z'",
         messageFormat: "[RequestId:{req.id.requestId}] [{context}] {msg}",
