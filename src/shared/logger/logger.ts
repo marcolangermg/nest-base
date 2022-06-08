@@ -21,6 +21,6 @@ export class Logger {
   public static log(params: LogInterface): void {
     const { message, logData, context, level = LogLevel.INFO } = params;
 
-    this.logger[level]({ message, logData }, context);
+    this.logger[level]({ context: context, message, logData });
   }
 }

@@ -10,7 +10,6 @@ export const loggerConfig = LoggerModule.forRoot({
     },
     name: config.app.name,
     level: config.app.logLevel,
-
     autoLogging: false,
     redact: {
       paths: redactList,
@@ -20,12 +19,12 @@ export const loggerConfig = LoggerModule.forRoot({
       target: "pino-pretty",
       options: {
         colorize: true,
-        singleLine: false,
+        singleLine: true,
         levelFirst: false,
+        crlf: true,
         translateTime: "yyyy-MM-dd'T'HH:mm:ss.l'Z'",
-        messageFormat: `{"requestId":"{req.id.requestId}", "context":"{msg}"}`,
-
-        ignore: "pid,hostname,context,req,res,responseTime",
+        messageFormat: "[RequestId:{req.id.requestId}] [{context}] {msg}:",
+        ignore: "pid,hostname,req,res,responseTime",
         errorLikeObjectKeys: ["err", "error"],
       },
     },
