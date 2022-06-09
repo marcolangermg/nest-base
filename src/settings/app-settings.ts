@@ -19,5 +19,5 @@ export class AppSettings {
     .default("3000")
     .asIntPositive();
 
-  public readonly baseUrl = env.get(Env.SERVICE_BASE_URL).asString();
+  public readonly baseUrl = env.get(Env.SERVICE_BASE_URL).asUrlString();
 }
