@@ -51,7 +51,7 @@ export class PubSubSubscription {
     if (props.pushConfig !== undefined) {
       this.httpRoute = props.pushConfig.pushEndpoint;
       this.pushConfig = {
-        pushEndpoint: config.app.baseUrl + props.pushConfig.pushEndpoint,
+        pushEndpoint: `${config.app.baseUrl}:${config.app.appListenPort}${props.pushConfig.pushEndpoint}`,
       };
     }
   }

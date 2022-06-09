@@ -6,4 +6,4 @@ RUN npm install
 COPY . .
 RUN npm run build
 HEALTHCHECK --interval=5s --timeout=3s --start-period=15s --retries=5\
-  CMD curl -f http://localhost:${SERVICE_PORT}/status || exit 1
+  CMD curl -f http://localhost:${APP_LISTEN_PORT}/status || exit 1
