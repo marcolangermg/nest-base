@@ -1,6 +1,6 @@
 import { ApplicationSettings } from "@app/settings/application-settings";
 import { DataBaseCollections } from "@app/shared/firestore/data-base-collections";
-import { Firestore, WhereFilterOp } from "@google-cloud/firestore";
+import { Firestore, Query, WhereFilterOp } from "@google-cloud/firestore";
 import { v4 } from "uuid";
 
 export interface FirestoreClientStoreInterface {
@@ -10,7 +10,6 @@ export interface FirestoreClientStoreInterface {
 }
 
 export interface FirestoreQueryInterface {
-  collection: DataBaseCollections;
   fieldPath: string;
   operator: WhereFilterOp;
   value: unknown;
@@ -35,12 +34,25 @@ export abstract class FirestoreClient<T> {
   }
 
   protected async getDocumentsByQuery(
-    query: FirestoreQueryInterface,
+    collection: DataBaseCollections,
+    queryList: FirestoreQueryInterface[],
   ): Promise<T[]> {
-    const snapShot = await this.firestore
-      .collection(query.collection)
-      .where(query.fieldPath, query.operator, query.value)
-      .get();
+    if (queryList.length === 0) {
+      return [];
+    }
+
+    let query!: Query;
+    const dbCollection = this.firestore.collection(collection);
+
+    queryList.forEach((queryItem) => {
+      query = dbCollection.where(
+        queryItem.fieldPath,
+        queryItem.operator,
+        queryItem.value,
+      );
+    });
+
+    const snapShot = await query.get();
 
     if (snapShot.empty) {
       return [];
