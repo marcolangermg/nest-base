@@ -2,7 +2,7 @@ FROM google/cloud-sdk:alpine as pubSub
 RUN apk --update add openjdk8-jre
 RUN gcloud components install pubsub-emulator beta --quiet
 VOLUME /opt/data
-EXPOSE 8085
+EXPOSE ${PUBSUB_PORT}
 ENTRYPOINT [`gcloud config set project ${PUBSUB_PROJECT_ID} && gcloud beta emulators pubsub start \
   --data-dir=/opt/data \
   --host-port=${PUBSUB_LISTEN_ADDRESS}`]

@@ -24,6 +24,7 @@ services:
         restart: unless-stopped
         depends_on:
             - pubSub
+            - firestore
             
     pubSub:
         image: pubsub
@@ -39,6 +40,20 @@ services:
           - PUBSUB_PORT=8085
         ports:
           - "8085:8085"        
+    firestore:
+        image: firestore
+        build:
+            context: .
+            target: firestore
+            dockerfile: ./docker/firestore/Dockerfile
+        networks:
+            - nesjs-network
+        environment:
+          - FIRESTORE_PROJECT_ID=dummy-project-id
+          - FIRESTORE_LISTEN_ADDRESS=0.0.0.0:8086
+          - FIRESTORE_PORT=8086
+        ports:
+          - "8086:8086" 
 
 
 networks:

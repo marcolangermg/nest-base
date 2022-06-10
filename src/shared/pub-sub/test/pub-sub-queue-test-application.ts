@@ -1,12 +1,13 @@
 import { PubSubHttpClient } from "@app/shared/pub-sub/application/pub-sub-http-client";
 import { PubSubHttpService } from "@app/shared/pub-sub/application/pub-sub-http-service";
+import { pubSubSubscriptionList } from "@app/shared/pub-sub/test/pub-sub-subscription-list";
 import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
 import { ApplicationSettingsCustom } from "@app/shared/test/application-settings-custom";
 import { BaseTestApplication } from "@app/shared/test/base-test-application";
-import { pubSubSubscriptionList } from "@app/shared/test/pub-sub-subscription-list";
 import { INestApplication } from "@nestjs/common";
 import axios from "axios";
 import request from "supertest";
+import { v4 } from "uuid";
 
 /* istanbul ignore file */
 export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueTestApplication> {
@@ -15,6 +16,9 @@ export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueT
 
   constructor(private readonly settings: ApplicationSettingsCustom) {
     super(PubSubQueueTestApplication.name);
+    this.settings.setCustomSettings({
+      pubSub: { projectId: v4() },
+    });
 
     this.pubSubHttpClient = new PubSubHttpClient(settings);
     this.pubSubHttpService = new PubSubHttpService(this.pubSubHttpClient);

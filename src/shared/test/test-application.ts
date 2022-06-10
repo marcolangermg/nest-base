@@ -1,23 +1,25 @@
 import { ApplicationSettings } from "@app/settings/application-settings";
+import { FirestoreTestApplication } from "@app/shared/firestore/test/firestore-test-application";
 import { ExtendableLogger } from "@app/shared/logger/extendable-logger";
+import { PubSubQueueTestApplication } from "@app/shared/pub-sub/test/pub-sub-queue-test-application";
 import {
   ApplicationSettingsCustom,
   RecursivePartial,
 } from "@app/shared/test/application-settings-custom";
 import { NestTestApplication } from "@app/shared/test/nest-test-application";
-import { PubSubQueueTestApplication } from "@app/shared/test/pub-sub-queue-test-application";
 import { INestApplication } from "@nestjs/common";
-import { v4 } from "uuid";
 
 /* istanbul ignore file */
 interface TestApplicationData {
   app: INestApplication;
   pubSubQueue?: PubSubQueueTestApplication;
+  firestoreDatabase?: FirestoreTestApplication;
 }
 
 interface TestApplicationOptions {
   customSettings?: RecursivePartial<ApplicationSettings>;
   buildPubSubQueue?: boolean;
+  buildFirestoreDatabase?: boolean;
   overrideProviderList?: [{ original: unknown; override: unknown }];
 }
 
@@ -26,6 +28,7 @@ export class TestApplication extends ExtendableLogger {
   private readonly applicationSettings = new ApplicationSettingsCustom();
   private nestTestApplication!: NestTestApplication;
   private pubSubQueue?: PubSubQueueTestApplication;
+  private firestoreDatabase?: FirestoreTestApplication;
 
   constructor(private readonly options: TestApplicationOptions) {
     super(TestApplication.name);
@@ -41,6 +44,7 @@ export class TestApplication extends ExtendableLogger {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         app: this.nestTestApplication.app!,
         pubSubQueue: this.pubSubQueue,
+        firestoreDatabase: this.firestoreDatabase,
       });
     } finally {
       await this.cleanUp();
@@ -55,11 +59,13 @@ export class TestApplication extends ExtendableLogger {
     await this.configApp();
 
     if (this.options.buildPubSubQueue === true) {
-      this.applicationSettings.setCustomSettings({
-        pubSub: { projectId: v4() },
-      });
-
       this.pubSubQueue = await new PubSubQueueTestApplication(
+        this.applicationSettings,
+      ).setUp();
+    }
+
+    if (this.options.buildFirestoreDatabase === true) {
+      this.firestoreDatabase = await new FirestoreTestApplication(
         this.applicationSettings,
       ).setUp();
     }
@@ -80,6 +86,7 @@ export class TestApplication extends ExtendableLogger {
     await Promise.all([
       await this.nestTestApplication?.cleanUp(),
       await this.pubSubQueue?.cleanUp(),
+      await this.firestoreDatabase?.cleanUp(),
     ]);
   }
 }

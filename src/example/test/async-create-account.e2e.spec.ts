@@ -16,6 +16,7 @@ describe("Async Create account", () => {
 
       return new TestApplication({
         buildPubSubQueue: true,
+        buildFirestoreDatabase: true,
       }).run(async ({ app, pubSubQueue }): Promise<void> => {
         await request(app.getHttpServer())
           .post(HttpRoutes.ACCOUNT_CREATE_ASYNC)
