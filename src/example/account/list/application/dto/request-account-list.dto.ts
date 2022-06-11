@@ -1,18 +1,21 @@
-import { AccountListFilter } from "@app/example/account/list/domain/entity/account-list-filter";
+import { AccountListFilter } from "@app/example/account/shared/entity/account-list-filter";
 import { AccountStatus } from "@app/example/account/shared/entity/account-status.entity";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsString } from "class-validator";
+import { IsEmail, IsOptional, IsString } from "class-validator";
 
 export class RequestAccountListDto {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   public readonly name?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsEmail()
+  @IsOptional()
   public readonly email?: string;
 
-  @ApiProperty({ enum: AccountStatus })
+  @ApiProperty({ enum: AccountStatus, required: false })
+  @IsOptional()
   public readonly status?: AccountStatus;
 
   public toAccountListFilter(): AccountListFilter {
