@@ -42,8 +42,9 @@ export abstract class FirestoreClient<T> {
     collection: DataBaseCollections,
     queryList: FirestoreQueryInterface[],
   ): Promise<T[]> {
+    /* istanbul ignore if */
     if (queryList.length === 0) {
-      return [];
+      throw new Error("Query list is empty");
     }
 
     let dbCollection: CollectionReference | Query =
