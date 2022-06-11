@@ -31,6 +31,7 @@ describe("Account list (e2e)", () => {
           email: testAccount.email,
           status: testAccount.status,
           name: testAccount.name,
+          limit: 10,
         };
 
         await request(app.getHttpServer())

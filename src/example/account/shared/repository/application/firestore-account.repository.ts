@@ -54,7 +54,11 @@ export class FirestoreAccountRepository
       });
     }
 
-    return await this.getDocumentsByQuery(this.collectionName, query);
+    return await this.getDocumentsByQuery({
+      collection: this.collectionName,
+      queryList: query,
+      limit: filter.limit,
+    });
   }
 
   public async store(account: Account): Promise<void> {
@@ -70,13 +74,16 @@ export class FirestoreAccountRepository
   }
 
   public async getByEmail(email: string): Promise<Account | undefined> {
-    const accounts = await this.getDocumentsByQuery(this.collectionName, [
-      {
-        fieldPath: "email",
-        operator: "==",
-        value: email,
-      },
-    ]);
+    const accounts = await this.getDocumentsByQuery({
+      collection: this.collectionName,
+      queryList: [
+        {
+          fieldPath: "email",
+          operator: "==",
+          value: email,
+        },
+      ],
+    });
 
     return accounts.length > 0 ? accounts[0] : undefined;
   }

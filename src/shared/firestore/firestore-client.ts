@@ -20,6 +20,12 @@ export interface FirestoreQueryInterface {
   value: unknown;
 }
 
+export interface FirestoreQueryInterfaceArray {
+  collection: DataBaseCollections;
+  queryList: FirestoreQueryInterface[];
+  limit?: number;
+}
+
 export abstract class FirestoreClient<T> {
   protected readonly firestore: Firestore;
 
@@ -39,24 +45,23 @@ export abstract class FirestoreClient<T> {
   }
 
   protected async getDocumentsByQuery(
-    collection: DataBaseCollections,
-    queryList: FirestoreQueryInterface[],
+    query: FirestoreQueryInterfaceArray,
   ): Promise<T[]> {
-    /* istanbul ignore if */
-    if (queryList.length === 0) {
-      throw new Error("Query list is empty");
-    }
+    let dbCollection: CollectionReference | Query = this.firestore.collection(
+      query.collection,
+    );
 
-    let dbCollection: CollectionReference | Query =
-      this.firestore.collection(collection);
-
-    queryList.forEach((queryItem) => {
+    query.queryList.forEach((queryItem) => {
       dbCollection = dbCollection.where(
         queryItem.fieldPath,
         queryItem.operator,
         queryItem.value,
       );
     });
+
+    if (query.limit !== undefined) {
+      dbCollection = dbCollection.limit(query.limit);
+    }
 
     const snapShot = await dbCollection.get();
 

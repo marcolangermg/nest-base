@@ -4,4 +4,5 @@ export interface AccountListFilter {
   readonly name?: string;
   readonly email?: string;
   readonly status?: AccountStatus;
+  readonly limit?: number;
 }
