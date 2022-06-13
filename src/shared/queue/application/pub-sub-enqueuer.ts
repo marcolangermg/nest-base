@@ -1,20 +1,26 @@
+import { ApplicationSettings } from "@app/settings/application-settings";
 import { REQUEST_SCOPED } from "@app/shared/container/request-scoped";
-import { PubSubService } from "@app/shared/pub-sub/domain/pub-sub-service";
-import { QueueEvent } from "@app/shared/queue/application/queue-event";
-import { EnqueueEvent } from "@app/shared/queue/domain/enqueue-event";
+import { PubSubHttpClient } from "@app/shared/pub-sub/application/pub-sub-http-client";
+import { queueEventDtoList } from "@app/shared/queue/application/dto/queue-event-dto-list";
 import { Enqueuer } from "@app/shared/queue/domain/enqueuer";
-import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
+import { Event } from "@app/shared/queue/domain/event";
 import { Injectable } from "@nestjs/common";
 
 @Injectable(REQUEST_SCOPED)
-export class PubSubEnqueuer implements Enqueuer {
-  constructor(private readonly pubSubService: PubSubService) {}
+export class PubSubEnqueuer extends PubSubHttpClient implements Enqueuer {
+  constructor(protected readonly settings: ApplicationSettings) {
+    super(settings);
+  }
 
-  public async publish(
-    topicName: QueueTopics,
-    data: EnqueueEvent,
-  ): Promise<void> {
-    const event = new QueueEvent(topicName, data);
-    await this.pubSubService.publish(topicName, event);
+  public async publish(event: Event): Promise<void> {
+    this.validateEvent(event);
+
+    await this.publishMessage(event.topicName, event.payload);
+  }
+
+  private validateEvent(event: Event): void {
+    const zodObject = queueEventDtoList[event.topicName];
+
+    zodObject.parse(event.payload);
   }
 }

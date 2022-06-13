@@ -1,3 +1,4 @@
+import { CreateAccountEvent } from "@app/example/account/create/domain/entity/create-account-process.event";
 import { Account } from "@app/example/account/shared/entity/account.entity";
 import { queueBaseEventDto } from "@app/shared/queue/application/dto/queue-base-event.dto";
 import { z } from "zod";
@@ -15,10 +16,10 @@ export type QueueAccountCreateEventDtoType = z.infer<
   typeof queueAccountCreateEventDto
 >;
 
-export const accountToQueueAccountCreateEventDto = (
+export const accountToAccountCreateEvent = (
   account: Account,
-): QueueAccountCreateEventDtoType => {
-  return queueAccountCreateEventDto.parse({
+): CreateAccountEvent => {
+  return new CreateAccountEvent({
     type: "account",
     id: account.id,
     name: account.name,

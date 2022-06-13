@@ -1,9 +1,5 @@
-import { EnqueueEvent } from "@app/shared/queue/domain/enqueue-event";
-import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
+import { Event } from "@app/shared/queue/domain/event";
 
 export abstract class Enqueuer {
-  public abstract publish(
-    topicName: QueueTopics,
-    data: EnqueueEvent,
-  ): Promise<void>;
+  public abstract publish(event: Event): Promise<void>;
 }

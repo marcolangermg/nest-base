@@ -1,5 +1,4 @@
 import { PubSubHttpClient } from "@app/shared/pub-sub/application/pub-sub-http-client";
-import { PubSubHttpService } from "@app/shared/pub-sub/application/pub-sub-http-service";
 import { pubSubSubscriptionList } from "@app/shared/pub-sub/test/pub-sub-subscription-list";
 import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
 import { ApplicationSettingsCustom } from "@app/shared/test/application-settings-custom";
@@ -11,8 +10,7 @@ import { v4 } from "uuid";
 
 /* istanbul ignore file */
 export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueTestApplication> {
-  private readonly pubSubHttpClient: PubSubHttpClient;
-  public readonly pubSubHttpService: PubSubHttpService;
+  public readonly pubSubHttpClient: PubSubHttpClient;
 
   constructor(private readonly settings: ApplicationSettingsCustom) {
     super(PubSubQueueTestApplication.name);
@@ -21,7 +19,6 @@ export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueT
     });
 
     this.pubSubHttpClient = new PubSubHttpClient(settings);
-    this.pubSubHttpService = new PubSubHttpService(this.pubSubHttpClient);
   }
 
   public async setUp(): Promise<PubSubQueueTestApplication> {
@@ -35,7 +32,7 @@ export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueT
     const topics = Object.values(QueueTopics);
     await Promise.all(
       topics.map(async (topic) => {
-        await this.pubSubHttpService.createTopic(topic);
+        await this.pubSubHttpClient.createTopic(topic);
       }),
     );
   }
@@ -43,7 +40,7 @@ export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueT
   private async subscribeToQueue(): Promise<void> {
     await Promise.all(
       pubSubSubscriptionList.map(async (subscription) => {
-        await this.pubSubHttpService.subscribe({
+        await this.pubSubHttpClient.subscribe({
           ...subscription,
           pushConfig: undefined,
         });
@@ -58,7 +55,7 @@ export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueT
   private async unsubscribeToQueue(): Promise<void> {
     await Promise.all(
       pubSubSubscriptionList.map(async (subscription) => {
-        await this.pubSubHttpService.unsubscribe(subscription.subscriptionName);
+        await this.pubSubHttpClient.unsubscribe(subscription.subscriptionName);
       }),
     );
   }

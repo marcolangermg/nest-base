@@ -1,21 +1,17 @@
 import { ApplicationSettings } from "@app/settings/application-settings";
-import { REQUEST_SCOPED } from "@app/shared/container/request-scoped";
 import { ExtendableLogger } from "@app/shared/logger/extendable-logger";
 import { LogLevel } from "@app/shared/logger/logger";
 import { PubSubSubscription } from "@app/shared/pub-sub/application/pub-sub-subscription";
-import { QueueEvent } from "@app/shared/queue/application/queue-event";
 import {
   CreateSubscriptionResponse,
   CreateTopicResponse,
   PubSub,
 } from "@google-cloud/pubsub";
-import { Injectable } from "@nestjs/common";
 
-@Injectable(REQUEST_SCOPED)
 export class PubSubHttpClient extends ExtendableLogger {
   private pubSub: PubSub;
 
-  constructor(private readonly settings: ApplicationSettings) {
+  constructor(settings: ApplicationSettings) {
     super(PubSubHttpClient.name);
 
     this.pubSub = new PubSub({
@@ -44,9 +40,10 @@ export class PubSubHttpClient extends ExtendableLogger {
     await this.pubSub.subscription(subscriptionName).delete();
   }
 
-  public async publish(topicName: string, data: QueueEvent): Promise<void> {
-    await this.pubSub
-      .topic(topicName)
-      .publishMessage({ attributes: data.data });
+  public async publishMessage(
+    topicName: string,
+    attributes: { [k: string]: string },
+  ): Promise<void> {
+    await this.pubSub.topic(topicName).publishMessage({ attributes });
   }
 }
