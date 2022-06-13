@@ -18,7 +18,7 @@ export abstract class ExtendableLogger {
     Logger.log({
       message,
       logData,
-      level: level ?? LogLevel.INFO,
+      level: /* istanbul ignore next */ level ?? LogLevel.INFO,
       context: this.context,
     });
   }

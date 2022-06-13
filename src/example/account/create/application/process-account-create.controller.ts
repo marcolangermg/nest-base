@@ -20,8 +20,6 @@ export class ProcessAccountCreateController extends BaseController<QueueReceiveD
   public async handle(
     @Body() processCreateAccountDto: ProcessAccountCreateDto,
   ): Promise<QueueReceiveDto> {
-    this.log("Starting");
-
     const account = processCreateAccountDto.toAccount();
 
     const executeResult = await this.accountCreateUseCase.execute(account);

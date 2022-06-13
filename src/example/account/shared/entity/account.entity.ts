@@ -1,5 +1,4 @@
 import { AccountStatus } from "@app/example/account/shared/entity/account-status.entity";
-import { EnqueueEvent } from "@app/shared/queue/domain/enqueue-event";
 
 export interface AccountInterface {
   id: string;
@@ -22,18 +21,5 @@ export class Account implements AccountInterface {
 
   constructor(props: AccountInterface) {
     Object.assign(this, props);
-  }
-
-  public toEvent(): EnqueueEvent {
-    return {
-      type: "account",
-      id: this.id,
-      name: this.name,
-      email: this.email,
-      status: this.status,
-      password: this.password,
-      createdAt: this.createdAt.toISOString(),
-      updatedAt: this.updatedAt.toISOString(),
-    };
   }
 }

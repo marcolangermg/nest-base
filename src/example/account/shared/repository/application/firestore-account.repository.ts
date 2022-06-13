@@ -14,6 +14,7 @@ import {
   FirestoreQueryInterface,
 } from "@app/shared/firestore/firestore-client";
 import { Injectable } from "@nestjs/common";
+import { omit } from "lodash";
 
 @Injectable(REQUEST_SCOPED)
 export class FirestoreAccountRepository
@@ -25,34 +26,23 @@ export class FirestoreAccountRepository
   constructor(protected readonly settings: ApplicationSettings) {
     super(settings);
   }
+
   public async getByAccountListFilter(
     filter: AccountListFilter,
   ): Promise<Account[]> {
     const query: FirestoreQueryInterface[] = [];
 
-    if (filter.email !== undefined) {
-      query.push({
-        fieldPath: "email",
-        operator: "==",
-        value: filter.email,
-      });
-    }
+    const filterWithoutLimit = omit(filter, "limit");
 
-    if (filter.name !== undefined) {
-      query.push({
-        fieldPath: "name",
-        operator: "==",
-        value: filter.name,
-      });
-    }
-
-    if (filter.status !== undefined) {
-      query.push({
-        fieldPath: "status",
-        operator: "==",
-        value: filter.status,
-      });
-    }
+    Object.entries(filterWithoutLimit).forEach(([key, value]) => {
+      if (value !== undefined) {
+        query.push({
+          fieldPath: key,
+          operator: "==",
+          value: value,
+        });
+      }
+    });
 
     return await this.getDocumentsByQuery({
       collection: this.collectionName,
@@ -85,7 +75,7 @@ export class FirestoreAccountRepository
       ],
     });
 
-    return accounts.length > 0 ? accounts[0] : undefined;
+    return accounts[0];
   }
 
   protected fromDatabase(data: FirestoreAccountMapperType): Account {

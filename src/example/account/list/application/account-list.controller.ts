@@ -20,8 +20,6 @@ export class CreateAccountController extends BaseController<ResponseAccountListD
   public async handle(
     @Query() requestAccountListDto: RequestAccountListDto,
   ): Promise<ResponseAccountListDto> {
-    this.log("Starting");
-
     const filter = requestAccountListDto.toAccountListFilter();
 
     const executeResult = await this.useCase.execute(filter);

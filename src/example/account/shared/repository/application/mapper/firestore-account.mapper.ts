@@ -15,19 +15,21 @@ export const firestoreAccountMapper = z.object({
 export type FirestoreAccountMapperType = z.infer<typeof firestoreAccountMapper>;
 
 export const fromDatabase = (account: FirestoreAccountMapperType): Account => {
+  const parsedAccount = firestoreAccountMapper.parse(account);
+
   return new Account({
-    id: account.id,
-    name: account.name,
-    email: account.email,
-    password: account.password,
-    status: account.status as AccountStatus,
-    createdAt: new Date(account.createdAt),
-    updatedAt: new Date(account.updatedAt),
+    id: parsedAccount.id,
+    name: parsedAccount.name,
+    email: parsedAccount.email,
+    password: parsedAccount.password,
+    status: parsedAccount.status as AccountStatus,
+    createdAt: new Date(parsedAccount.createdAt),
+    updatedAt: new Date(parsedAccount.updatedAt),
   });
 };
 
 export const toDatabase = (account: Account): FirestoreAccountMapperType => {
-  return {
+  return firestoreAccountMapper.parse({
     id: account.id,
     name: account.name,
     email: account.email,
@@ -35,5 +37,5 @@ export const toDatabase = (account: Account): FirestoreAccountMapperType => {
     password: account.password,
     createdAt: account.createdAt.toISOString(),
     updatedAt: account.updatedAt.toISOString(),
-  };
+  });
 };

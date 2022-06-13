@@ -1,4 +1,5 @@
 import { AsyncResponseAccountCreateDto } from "@app/example/account/create/application/dto/async-response-account-create.dto";
+import { accountToQueueAccountCreateEventDto } from "@app/example/account/create/application/dto/queue-account-create-event.dto";
 import { RequestAccountCreateDto } from "@app/example/account/create/application/dto/request-account-create.dto";
 import { BaseController } from "@app/shared/base-classes/base-controller";
 import { HttpMethodDecorator } from "@app/shared/http/decorator/http-method.decorator";
@@ -21,13 +22,11 @@ export class AsyncAccountCreateController extends BaseController<AsyncResponseAc
   public async handle(
     @Body() requestCreateAccountDto: RequestAccountCreateDto,
   ): Promise<AsyncResponseAccountCreateDto> {
-    this.log("Starting");
-
     const account = requestCreateAccountDto.toAccount();
 
     await this.enqueuer.publish(
       QueueTopics.CREATE_ACCOUNT_PROCESS,
-      account.toEvent(),
+      accountToQueueAccountCreateEventDto(account),
     );
 
     return this.buildResponse({}, new AsyncResponseAccountCreateDto());

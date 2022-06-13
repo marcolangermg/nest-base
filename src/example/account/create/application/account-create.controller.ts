@@ -20,8 +20,6 @@ export class AccountCreateController extends BaseController<ResponseAccountCreat
   public async handle(
     @Body() requestCreateAccountDto: RequestAccountCreateDto,
   ): Promise<ResponseAccountCreateDto> {
-    this.log("Starting");
-
     const account = requestCreateAccountDto.toAccount();
 
     const executeResult = await this.createAccountUseCase.execute(account);
