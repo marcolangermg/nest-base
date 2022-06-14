@@ -30,10 +30,10 @@
       "node_modules/@types"
     ],
     "lib": [
-      "ES2019"
+      "es2021",
     ],
     "module": "commonjs",
     "outDir": "dist/",
-    "target": "ES2019"
+    "target": "ES2021"
   }
 }
