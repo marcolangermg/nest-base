@@ -16,6 +16,6 @@ export class AccountCreateProcessEvent implements Event {
   public readonly payload: Record<string, string>;
 
   constructor(payload: CreateAccountEventInterface) {
-    this.payload = { ...payload };
+    this.payload = { ...payload, type: AccountCreateProcessEvent.name };
   }
 }
