@@ -1,4 +1,4 @@
-import { Event } from "@app/shared/queue/domain/event";
+import { Event, EventPayload } from "@app/shared/queue/domain/event";
 import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
 
 interface CreateAccountEventInterface {
@@ -13,9 +13,9 @@ interface CreateAccountEventInterface {
 
 export class AccountCreateProcessEvent implements Event {
   public readonly topicName = QueueTopics.CREATE_ACCOUNT_PROCESS;
-  public readonly payload: Record<string, string>;
+  public readonly payload: EventPayload;
 
   constructor(payload: CreateAccountEventInterface) {
-    this.payload = { ...payload, type: AccountCreateProcessEvent.name };
+    this.payload = { ...payload, type: typeof AccountCreateProcessEvent };
   }
 }
