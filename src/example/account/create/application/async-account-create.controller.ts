@@ -1,5 +1,5 @@
 import { AsyncResponseAccountCreateDto } from "@app/example/account/create/application/dto/async-response-account-create.dto";
-import { accountToAccountCreateEvent } from "@app/example/account/create/application/dto/queue-account-create-event.dto";
+import { accountToCreateAccountProcessEvent } from "@app/example/account/create/application/dto/queue-account-create-process-event.dto";
 import { RequestAccountCreateDto } from "@app/example/account/create/application/dto/request-account-create.dto";
 import { BaseController } from "@app/shared/base-classes/base-controller";
 import { HttpMethodDecorator } from "@app/shared/http/decorator/http-method.decorator";
@@ -23,7 +23,7 @@ export class AsyncAccountCreateController extends BaseController<AsyncResponseAc
   ): Promise<AsyncResponseAccountCreateDto> {
     const account = requestCreateAccountDto.toAccount();
 
-    const createAccountEvent = accountToAccountCreateEvent(account);
+    const createAccountEvent = accountToCreateAccountProcessEvent(account);
 
     await this.enqueuer.publish(createAccountEvent);
 

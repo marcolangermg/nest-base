@@ -42,7 +42,7 @@ export class PubSubHttpClient extends ExtendableLogger {
 
   public async publishMessage(
     topicName: string,
-    attributes: { [k: string]: string },
+    attributes: Record<string, string>,
   ): Promise<void> {
     await this.pubSub.topic(topicName).publishMessage({ attributes });
   }

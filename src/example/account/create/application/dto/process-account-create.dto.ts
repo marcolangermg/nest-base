@@ -1,4 +1,4 @@
-import { queueAccountCreateEventDto } from "@app/example/account/create/application/dto/queue-account-create-event.dto";
+import { queueAccountCreateProcessEventDto } from "@app/example/account/create/application/dto/queue-account-create-process-event.dto";
 import { Account } from "@app/example/account/shared/entity/account.entity";
 import { QueueRequestDto } from "@app/shared/queue/application/dto/queue-request.dto";
 
@@ -8,7 +8,7 @@ export class ProcessAccountCreateDto extends QueueRequestDto {
   }
 
   toAccount(): Account {
-    const attributes = queueAccountCreateEventDto.parse(
+    const attributes = queueAccountCreateProcessEventDto.parse(
       this.message.attributes,
     );
 
