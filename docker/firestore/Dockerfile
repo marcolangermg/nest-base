@@ -1,5 +1,5 @@
 FROM google/cloud-sdk:alpine as firestore
-RUN apk --update add openjdk8-jre
+RUN apk --update add openjdk11-jre
 RUN gcloud components install cloud-firestore-emulator beta --quiet
 EXPOSE ${FIRESTORE_PORT}
 ENTRYPOINT [`gcloud config set project ${FIRESTORE_PROJECT_ID} && gcloud beta emulators firestore start \

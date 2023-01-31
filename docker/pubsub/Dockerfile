@@ -1,4 +1,4 @@
-FROM google/cloud-sdk:alpine as pubSub
+FROM google/cloud-sdk:183.0.0-alpine as pubSub
 RUN apk --update add openjdk8-jre
 RUN gcloud components install pubsub-emulator beta --quiet
 VOLUME /opt/data
