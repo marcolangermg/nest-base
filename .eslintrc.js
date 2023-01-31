@@ -19,6 +19,12 @@ module.exports = {
     jest: true,
   },
   ignorePatterns: ['.eslintrc.js'],
+  'prettier/prettier': [
+    'error',
+    {
+      'endOfLine': 'auto',
+    }
+  ],
   rules: {
     "array-bracket-spacing": ["error", "never"],
     "comma-dangle": ["error", "only-multiline"],
