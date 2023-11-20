@@ -3,6 +3,7 @@ import { ExtendableLogger } from "@app/shared/logger/extendable-logger";
 import { LogLevel } from "@app/shared/logger/logger";
 import { PubSubSubscription } from "@app/shared/pub-sub/application/pub-sub-subscription";
 import {
+  CreateSubscriptionOptions,
   CreateSubscriptionResponse,
   CreateTopicResponse,
   PubSub,
@@ -32,7 +33,7 @@ export class PubSubHttpClient extends ExtendableLogger {
     return await this.pubSub.createSubscription(
       options.subscriptionName,
       options.topic,
-      options,
+      options as CreateSubscriptionOptions,
     );
   }
 

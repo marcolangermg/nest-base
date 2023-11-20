@@ -51,7 +51,6 @@ module.exports = {
       "format": ["camelCase"],
       "selector": "classMethod"
     }],
-    "@typescript-eslint/no-duplicate-imports": "error",
     "@typescript-eslint/no-floating-promises": ["error"],
     "@typescript-eslint/no-shadow": "error",
     "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
