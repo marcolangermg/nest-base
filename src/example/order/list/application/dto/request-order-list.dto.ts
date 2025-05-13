@@ -10,7 +10,9 @@ export class RequestOrderListDto {
   public readonly id?: string;
 
   @ApiProperty({ required: false })
+  @Type(() => Number)
   @IsNumber()
+  @Min(1)
   @IsOptional()
   public readonly amount?: number;
 

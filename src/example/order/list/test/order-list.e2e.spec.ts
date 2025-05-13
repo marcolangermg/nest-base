@@ -27,9 +27,9 @@ describe("Order list (e2e)", () => {
         const orderList = await createOrders(app);
 
         const testOrder = orderList[0]!;
+        // Make sure amount is a number, not a string
         const query = {
-          id: testOrder.id,
-          amount: testOrder.amount,
+          amount: Number(testOrder.amount),
           limit: 10,
         };
 
@@ -42,7 +42,7 @@ describe("Order list (e2e)", () => {
             expect(body.orders.length).toEqual(1);
             expect(body.orders[0]?.id).toEqual(testOrder.id);
             expect(body.orders[0]?.amount).toEqual(testOrder.amount);
-            expect(body.orders[0]?.receivedAt).toEqual(testOrder.receivedAt);
+            expect(body.orders[0]?.receivedAt).toEqual(testOrder.receivedAt.toISOString());
           });
       });
     });

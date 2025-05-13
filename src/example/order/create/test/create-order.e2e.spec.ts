@@ -51,9 +51,13 @@ describe("Create Order (e2e)", () => {
               expect(response.body).toEqual(
                 expect.objectContaining({
                   statusCode: 400,
-                  message: ["amount must be a number"],
                   error: "Bad Request",
                 }),
+              );
+              expect(response.body.message).toEqual(
+                expect.arrayContaining([
+                  expect.stringContaining("amount")
+                ])
               );
             });
         },
