@@ -40,10 +40,26 @@ export class PubSubQueueTestApplication extends BaseTestApplication<PubSubQueueT
   private async subscribeToQueue(): Promise<void> {
     await Promise.all(
       pubSubSubscriptionList.map(async (subscription) => {
-        await this.pubSubHttpClient.subscribe({
-          ...subscription,
-          pushConfig: undefined,
-        });
+        try {
+          const subscriptionOptions = {
+            topic: subscription.topic,
+            subscriptionName: subscription.subscriptionName,
+            ackDeadlineSeconds: subscription.ackDeadlineSeconds,
+            retainAckedMessages: subscription.retainAckedMessages,
+            retryPolicy: {
+              minimumBackoff: { seconds: 0 },
+              maximumBackoff: { seconds: 10 }
+            },
+            ...(subscription.deadLetterPolicy ? { deadLetterPolicy: subscription.deadLetterPolicy } : {}),
+            pushConfig: undefined,
+          };
+          
+          await this.pubSubHttpClient.subscribe(subscriptionOptions);
+          this.log(`Subscribed to ${subscription.subscriptionName} successfully`);
+        } catch (error: any) {
+          this.log(`Error subscribing to ${subscription.subscriptionName}: ${error.message}`, error);
+          throw error;
+        }
       }),
     );
   }

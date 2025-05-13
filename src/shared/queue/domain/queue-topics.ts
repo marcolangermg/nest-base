@@ -1,3 +1,3 @@
 export enum QueueTopics {
-  CREATE_ACCOUNT_PROCESS = "create-account-process",
+  CREATE_ORDER_PROCESS = "create-order-process",
 }

@@ -4,10 +4,10 @@ import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
 
 export const pubSubSubscriptionList: PubSubSubscription[] = [
   new PubSubSubscription({
-    topic: QueueTopics.CREATE_ACCOUNT_PROCESS,
-    subscriptionName: "create-account-process",
+    topic: QueueTopics.CREATE_ORDER_PROCESS,
+    subscriptionName: "create-order-process",
     pushConfig: {
-      pushEndpoint: HttpRoutes.ACCOUNT_CREATE_PROCESS,
+      pushEndpoint: HttpRoutes.ORDER_CREATE_PROCESS,
     },
   }),
 ];

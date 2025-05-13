@@ -1,7 +1,7 @@
 export enum HttpRoutes {
   STATUS = "/status",
-  ACCOUNT_CREATE = "/api/v1/account/create",
-  ACCOUNT_CREATE_ASYNC = "/api/v1/account/create/async",
-  ACCOUNT_CREATE_PROCESS = "/api/v1/account/create/process",
-  ACCOUNT_LIST = "/api/v1/account/list",
+  ORDER_CREATE = "/api/v1/order/create",
+  ORDER_CREATE_ASYNC = "/api/v1/order/create/async",
+  ORDER_CREATE_PROCESS = "/api/v1/order/create/process",
+  ORDER_LIST = "/api/v1/order/list",
 }

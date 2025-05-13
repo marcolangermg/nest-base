@@ -1,6 +1,7 @@
 import { config } from "@app/settings/application-config";
 import { HttpRoutes } from "@app/shared/http/http-routes";
 import { QueueTopics } from "@app/shared/queue/domain/queue-topics";
+import { ExtendableLogger } from "@app/shared/logger/extendable-logger";
 
 interface RetryPolicy {
   minimumBackoff: {
@@ -30,7 +31,7 @@ export interface PubSubSubscriptionInterface {
   deadLetterPolicy?: DeadLetterPolicy;
 }
 
-export class PubSubSubscription {
+export class PubSubSubscription extends ExtendableLogger {
   public readonly topic!: string;
   public readonly subscriptionName!: string;
   public readonly pushConfig?: {
@@ -46,13 +47,25 @@ export class PubSubSubscription {
   public readonly httpRoute?: HttpRoutes;
 
   constructor(props: PubSubSubscriptionInterface) {
+    super(PubSubSubscription.name);
     Object.assign(this, props);
 
     if (props.pushConfig !== undefined) {
       this.httpRoute = props.pushConfig.pushEndpoint;
+      
+      const baseUrl = config.app.baseUrl || '';
+      const endpoint = props.pushConfig.pushEndpoint;
+      
+      const cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+      
+      const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+      
+      const url = `${cleanBaseUrl}${cleanEndpoint}`;
+      
       this.pushConfig = {
-        pushEndpoint: `${config.app.baseUrl}:${config.app.appListenPort}${props.pushConfig.pushEndpoint}`,
+        pushEndpoint: url,
       };
+      this.log(`Configured push endpoint: ${url}`)
     }
   }
 }

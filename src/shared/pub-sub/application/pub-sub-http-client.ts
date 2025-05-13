@@ -1,7 +1,6 @@
 import { ApplicationSettings } from "@app/settings/application-settings";
 import { ExtendableLogger } from "@app/shared/logger/extendable-logger";
 import { LogLevel } from "@app/shared/logger/logger";
-import { PubSubSubscription } from "@app/shared/pub-sub/application/pub-sub-subscription";
 import {
   CreateSubscriptionOptions,
   CreateSubscriptionResponse,
@@ -28,12 +27,12 @@ export class PubSubHttpClient extends ExtendableLogger {
   }
 
   public async subscribe(
-    options: PubSubSubscription,
+    options: CreateSubscriptionOptions & { subscriptionName: string; topic: string },
   ): Promise<CreateSubscriptionResponse> {
     return await this.pubSub.createSubscription(
       options.subscriptionName,
       options.topic,
-      options as CreateSubscriptionOptions,
+      options,
     );
   }
 

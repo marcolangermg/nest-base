@@ -1,3 +1,3 @@
 export enum DataBaseCollections {
-  ACCOUNT = "accounts",
+  ORDER = "orders",
 }
