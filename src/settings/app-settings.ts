@@ -2,7 +2,7 @@ import { Env, OptionalEnv } from "@app/settings/environment-variables";
 import env from "env-var";
 
 export class AppSettings {
-  public readonly name = "Service Name";
+  public readonly name = "Order Service";
 
   public readonly logLevel = env
     .get(OptionalEnv.LOG_LEVEL)
