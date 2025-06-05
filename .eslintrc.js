@@ -11,7 +11,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "prettier",
-    "plugin:sonarjs/recommended",
+    "plugin:sonarjs/recommended-legacy",
   ],
   root: true,
   env: {
@@ -46,6 +46,9 @@ module.exports = {
     }],
     "sonarjs/no-duplicate-string": "off",
     "sonarjs/prefer-immediate-return": "off",
+    "sonarjs/no-nested-functions": "off",
+    "sonarjs/different-types-comparison": "off",
+    "sonarjs/public-static-readonly": "off",
     "@typescript-eslint/ban-tslint-comment": "error",
     "@typescript-eslint/naming-convention": ["error", {
       "format": ["camelCase"],
@@ -59,7 +62,6 @@ module.exports = {
     }],
     "@typescript-eslint/require-await": ["error"],
     "@typescript-eslint/strict-boolean-expressions": ["error"],
-    "@typescript-eslint/type-annotation-spacing": ["error"],
     "no-console": "warn",
   },
 };
