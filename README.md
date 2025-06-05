@@ -1,6 +1,8 @@
 ## Description
 Project to be used as a starting base to NestJs based solutions
 
+This project requires **Node.js v22.16.0** or later.
+
 ## Installation
 
 ```bash
