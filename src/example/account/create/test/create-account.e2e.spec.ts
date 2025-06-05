@@ -11,7 +11,7 @@ describe("Create Account (e2e)", () => {
       const requestData = {
         email: faker.internet.email(),
         password: faker.internet.password(),
-        name: faker.name.firstName(),
+        name: faker.person.firstName(),
       };
 
       let id: string;
@@ -44,7 +44,7 @@ describe("Create Account (e2e)", () => {
       const requestData = {
         email: faker.internet.email(),
         password: faker.internet.password(),
-        name: faker.name.firstName(),
+        name: faker.person.firstName(),
       };
 
       return new TestApplication({ buildFirestoreDatabase: true }).run(
@@ -96,7 +96,7 @@ describe("Create Account (e2e)", () => {
     it("throws error when request dto is missing properties", async () => {
       const requestData = {
         password: faker.internet.password(),
-        name: faker.name.firstName(),
+        name: faker.person.firstName(),
       };
 
       return new TestApplication({ buildFirestoreDatabase: true }).run(

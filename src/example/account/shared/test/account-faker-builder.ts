@@ -8,7 +8,7 @@ export class AccountFakerBuilder {
     return new Account({
       email: faker.internet.email(),
       password: faker.internet.password(),
-      name: faker.name.firstName(),
+      name: faker.person.firstName(),
       id: v4(),
       createdAt: faker.date.past(),
       updatedAt: faker.date.past(),
