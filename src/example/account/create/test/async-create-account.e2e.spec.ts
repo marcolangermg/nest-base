@@ -11,7 +11,7 @@ describe("Async Create account", () => {
       const requestData = {
         email: faker.internet.email(),
         password: faker.internet.password(),
-        name: faker.name.firstName(),
+        name: faker.person.firstName(),
       };
 
       return new TestApplication({
